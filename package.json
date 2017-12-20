@@ -7,6 +7,7 @@
     "lint": "xo",
     "test": "npm run lint",
     "watch": "webpack --watch",
+    "prebuild": "npm install",
     "build": "webpack"
   },
   "author": "Stuart Phillips",
