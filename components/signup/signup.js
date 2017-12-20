@@ -177,7 +177,6 @@ class Signup extends React.Component {
 
 Signup.propTypes = {
   onSignup: PropTypes.func.isRequired,
-  onLoginClick: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired
 };
 

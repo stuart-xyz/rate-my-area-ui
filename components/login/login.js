@@ -122,7 +122,6 @@ class Login extends React.Component {
 
 Login.propTypes = {
   onAuthentication: PropTypes.func.isRequired,
-  onSignupClick: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired
 };
 

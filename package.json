@@ -45,6 +45,10 @@
     "envs": [
       "browser"
     ],
-    "extends": "xo-react"
+    "extends": "xo-react",
+    "rules": {
+      "import/no-unassigned-import": 0,
+      "no-useless-escape": 0
+    }
   }
 }
