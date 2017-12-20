@@ -42,6 +42,10 @@
   },
   "xo": {
     "space": true,
+    "ignores": [
+      "**/build/**",
+      "build"
+    ],
     "envs": [
       "browser"
     ],
