@@ -30,12 +30,13 @@ jobs:
   deploy:
     docker:
       - image: circleci/golang:1.9.2
-    working_directory: /tmp
+    working_directory: ~/repo
     steps:
+      - checkout
       - attach_workspace:
           at: /tmp/workspace
       - run: go get github.com/tcnksm/ghr
-      - run: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` workspace/build
+      - run: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` /tmp/workspace/build
 
 workflows:
   version: 2
