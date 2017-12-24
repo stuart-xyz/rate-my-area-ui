@@ -1,29 +1,52 @@
 version: 2
 jobs:
-  build:
+  build-test:
     docker:
       - image: circleci/node:8.9.3
-
     working_directory: ~/repo
-
     steps:
       - checkout
-
-      # download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
       - run: npm test
       - run: npm run build
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - store_artifacts:
-          path: ~/repo/build
+          path: build
           destination: build
+      - run: mkdir -p /tmp/workspace
+      - run: cp -r build /tmp/workspace
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - build
+
+  deploy:
+    docker:
+      - image: circleci/golang:1.9.2
+    working_directory: /tmp
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: go get github.com/tcnksm/ghr
+      - run: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` workspace/build
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build-test
+      - deploy:
+          requires:
+            - build-test
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)/
