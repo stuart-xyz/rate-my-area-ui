@@ -52,7 +52,13 @@
     "extends": "xo-react",
     "rules": {
       "import/no-unassigned-import": 0,
-      "no-useless-escape": 0
+      "no-useless-escape": 0,
+      "react/jsx-no-bind": [
+        2,
+        {
+          "allowFunctions": true
+        }
+      ]
     }
   }
 }
